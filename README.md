@@ -1,6 +1,6 @@
 # VAST Framework Interactive Demo
 
-**Values Alignment & Stability Tracker** - An interactive web prototype demonstrating AI moral alignment for ethical decision-making.
+**Values Alignment & Stability Tracker** - An interactive web demonstrating AI moral alignment for ethical decision-making.
 
 Created for PhD Thesis Defense | Author: Soraya Partow | Supervisor: Dr. Satyaki Nan
 
