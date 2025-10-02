@@ -1,0 +1,142 @@
+.vast-gauges {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vast-gauges h2 {
+  color: #1e3a8a;
+  margin-bottom: 24px;
+  font-size: 1.8em;
+  text-align: center;
+}
+
+.overall-score {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.score-circle {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 8px solid #1fb8cd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.score-value {
+  font-size: 3em;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.score-label {
+  font-size: 0.9em;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.gauges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.gauge-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s;
+}
+
+.gauge-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: #1fb8cd;
+}
+
+.gauge-card h3 {
+  color: #1e3a8a;
+  margin-bottom: 8px;
+  font-size: 1.2em;
+}
+
+.gauge-description {
+  color: #64748b;
+  font-size: 0.85em;
+  margin-bottom: 16px;
+  min-height: 36px;
+}
+
+.gauge-chart {
+  position: relative;
+  height: 200px;
+  margin-bottom: 16px;
+}
+
+.gauge-center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  font-weight: 700;
+  color: #1e3a8a;
+  pointer-events: none;
+}
+
+.gauge-value {
+  text-align: center;
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 8px;
+}
+
+.gauge-status {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95em;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.no-gauges {
+  text-align: center;
+  padding: 60px 20px;
+  color: #64748b;
+}
+
+.no-gauges p {
+  font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+  .gauges-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .score-circle {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .score-value {
+    font-size: 2.5em;
+  }
+}

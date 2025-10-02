@@ -1,0 +1,248 @@
+.belief-creator {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.belief-creator h2 {
+  color: #1e3a8a;
+  margin-bottom: 24px;
+  font-size: 1.8em;
+}
+
+.belief-creator h3 {
+  color: #334155;
+  font-size: 1.2em;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  transition: border-color 0.3s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #1fb8cd;
+}
+
+.form-section {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.credence-status {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+}
+
+.credence-status strong.valid {
+  color: #059669;
+  font-size: 1.2em;
+}
+
+.credence-status strong.invalid {
+  color: #dc2626;
+  font-size: 1.2em;
+}
+
+.credence-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.credence-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 80px 40px;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.credence-row label {
+  font-weight: 600;
+  color: #334155;
+  margin: 0;
+}
+
+.credence-row input[type="range"] {
+  width: 100%;
+}
+
+.credence-number {
+  padding: 8px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.confidence-input {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.confidence-input input[type="range"] {
+  flex: 1;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, #e2e8f0 0%, #1fb8cd 100%);
+  border-radius: 4px;
+  outline: none;
+}
+
+.confidence-input input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: #1fb8cd;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.confidence-input input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: #1fb8cd;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: none;
+}
+
+.confidence-value {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #1fb8cd;
+  min-width: 60px;
+  text-align: center;
+}
+
+.confidence-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85em;
+  color: #64748b;
+}
+
+.btn-normalize,
+.btn-add,
+.btn-remove,
+.btn-create {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-normalize {
+  background: #f59e0b;
+  color: white;
+}
+
+.btn-normalize:hover {
+  background: #d97706;
+}
+
+.btn-add {
+  background: #059669;
+  color: white;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.btn-add:hover {
+  background: #047857;
+}
+
+.btn-remove {
+  background: #dc2626;
+  color: white;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5em;
+  padding: 0;
+}
+
+.btn-remove:hover {
+  background: #b91c1c;
+}
+
+.btn-create {
+  background: #1fb8cd;
+  color: white;
+  font-size: 1.1em;
+  padding: 14px 32px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.btn-create:hover:not(:disabled) {
+  background: #1a9fb0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(31, 184, 205, 0.3);
+}
+
+.btn-create:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .credence-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .credence-row input[type="range"] {
+    order: 2;
+  }
+  
+  .credence-number {
+    order: 3;
+  }
+  
+  .btn-remove {
+    order: 4;
+  }
+}

@@ -1,0 +1,135 @@
+.scenario-loader {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scenario-loader h2 {
+  color: #1e3a8a;
+  margin-bottom: 24px;
+  font-size: 1.8em;
+  text-align: center;
+}
+
+.scenarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.scenario-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s;
+}
+
+.scenario-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border-color: #1fb8cd;
+}
+
+.scenario-icon {
+  font-size: 3em;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.scenario-card h3 {
+  color: #1e3a8a;
+  font-size: 1.3em;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.scenario-card p {
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.scenario-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+}
+
+.stat-label {
+  display: block;
+  color: #64748b;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  display: block;
+  color: #1e3a8a;
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+.scenario-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-load,
+.btn-jwmc {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-load {
+  background: #1fb8cd;
+  color: white;
+}
+
+.btn-load:hover {
+  background: #1a9fb0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(31, 184, 205, 0.3);
+}
+
+.btn-jwmc {
+  background: #f59e0b;
+  color: white;
+}
+
+.btn-jwmc:hover {
+  background: #d97706;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+@media (max-width: 768px) {
+  .scenarios-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .scenario-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .scenario-buttons {
+    flex-direction: column;
+  }
+}
