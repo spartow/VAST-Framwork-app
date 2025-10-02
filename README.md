@@ -2,7 +2,7 @@
 
 **Values Alignment & Stability Tracker** - An interactive web demonstrating AI moral alignment for ethical decision-making.
 
-Created for PhD Thesis Defense | Author: Soraya Partow | Supervisor: Dr. Satyaki Nan
+Created for Master Thesis Defense | Author: Soraya Partow | Supervisor: Dr. Satyaki Nan
 
 ---
 
@@ -350,7 +350,7 @@ Exports complete audit trail.
 If you use this framework in your research, please cite:
 
 ```bibtex
-@phdthesis{partow2025vast,
+@masterthesis{partow2025vast,
   title={VAST: Values Alignment and Stability Tracker for AI Moral Alignment},
   author={Partow, Soraya},
   year={2025},
