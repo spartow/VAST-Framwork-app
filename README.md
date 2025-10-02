@@ -1,14 +1,14 @@
-# VAST Framework Interactive Demo
+# VAST Framework
 
-**Values Alignment & Stability Tracker** - An interactive web demonstrating AI moral alignment for ethical decision-making.
+**Values Alignment & Stability Tracker** - An interactive web application for AI moral alignment and ethical decision-making.
 
-Created for Master Thesis Defense | Author: Soraya Partow | Supervisor: Dr. Satyaki Nan
+Master Thesis Project | Author: Soraya Partow | Supervisor: Dr. Satyaki Nan | October 2025
 
 ---
 
 ## Overview
 
-VAST is a novel framework for AI moral alignment that provides transparent, auditable, and stable ethical decision-making. This interactive demo showcases:
+VAST is a novel framework for AI moral alignment that provides transparent, auditable, and stable ethical decision-making. This interactive application showcases:
 
 - **Structured Belief Representation**: B(x) = (π(x), κ(x), J(x))
 - **JWMC Belief Revision**: Justification-Weighted Moral Consistency
