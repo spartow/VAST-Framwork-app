@@ -365,11 +365,4 @@ If you use this framework in your research, please cite:
 
 This software is provided for academic and research purposes.
 
----
-
-## Contact
-
-**Author**: Soraya Partow  
-**Supervisor**: Dr. Satyaki Nan  
-**Date**: October 2025
 
