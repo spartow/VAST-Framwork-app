@@ -373,10 +373,3 @@ This software is provided for academic and research purposes.
 **Supervisor**: Dr. Satyaki Nan  
 **Date**: October 2025
 
-For questions about implementation or customization, please refer to the inline code documentation.
-
----
-
-## Acknowledgments
-
-Built with modern web technologies for maximum accessibility and interactivity. Special thanks to the AI alignment research community for foundational work in this area.
