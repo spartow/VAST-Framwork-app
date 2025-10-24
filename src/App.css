@@ -10,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f5f7fa;
   min-height: 100vh;
 }
 
@@ -22,10 +22,11 @@ body {
 
 /* Header */
 .app-header {
-  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-  color: white;
-  padding: 32px 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: white;
+  color: #1a1f36;
+  padding: 40px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-bottom: 3px solid #3498db;
 }
 
 .header-content {
@@ -48,9 +49,10 @@ body {
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: #64748b;
   font-size: 1.1em;
-  font-weight: 500;
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }
 
 /* Notification */
@@ -121,15 +123,16 @@ body {
 
 .main-nav button:hover {
   background: #f8fafc;
-  border-color: #1fb8cd;
-  color: #1fb8cd;
+  border-color: #3498db;
+  color: #3498db;
   transform: translateY(-2px);
 }
 
 .main-nav button.active {
-  background: #1fb8cd;
+  background: #3498db;
   color: white;
-  border-color: #1fb8cd;
+  border-color: #3498db;
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.25);
 }
 
 /* Main Content */
@@ -152,12 +155,14 @@ body {
   background: white;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e8edf2;
 }
 
 .scenario-info h2 {
-  color: #1e3a8a;
+  color: #1a1f36;
   margin-bottom: 12px;
+  font-weight: 600;
 }
 
 .scenario-info p {
@@ -181,9 +186,10 @@ body {
 }
 
 .patient-card h4 {
-  color: #1e3a8a;
+  color: #2c3e50;
   margin-bottom: 12px;
   font-size: 1.1em;
+  font-weight: 600;
 }
 
 .patient-details {
@@ -215,12 +221,12 @@ body {
 }
 
 .action-confidence {
-  background: #e0f2fe;
-  color: #0369a1;
+  background: #e3f2fd;
+  color: #1976d2;
   padding: 4px 12px;
   border-radius: 12px;
   font-size: 0.85em;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /* Comparison View */
@@ -228,14 +234,16 @@ body {
   background: white;
   border-radius: 12px;
   padding: 32px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e8edf2;
 }
 
 .comparison-view h2 {
-  color: #1e3a8a;
+  color: #1a1f36;
   font-size: 2em;
   margin-bottom: 12px;
   text-align: center;
+  font-weight: 600;
 }
 
 .comparison-desc {
@@ -291,7 +299,7 @@ body {
 .score-number {
   font-size: 2em;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #2c3e50;
 }
 
 .framework-details {
@@ -327,10 +335,11 @@ body {
 }
 
 .comparison-chart h3 {
-  color: #1e3a8a;
+  color: #1a1f36;
   margin-bottom: 24px;
   text-align: center;
   font-size: 1.5em;
+  font-weight: 600;
 }
 
 .chart-bars {
@@ -378,15 +387,16 @@ body {
 
 /* Footer */
 .app-footer {
-  background: #1e3a8a;
-  color: white;
+  background: #f8fafc;
+  color: #475569;
   padding: 24px;
   text-align: center;
   margin-top: 48px;
+  border-top: 2px solid #e2e8f0;
 }
 
 .app-footer p {
-  color: #cbd5e1;
+  color: #64748b;
   font-size: 0.9em;
 }
 
