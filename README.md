@@ -2,7 +2,6 @@
 
 **Values Alignment & Stability Tracker** - An interactive web application for AI moral alignment and ethical decision-making.
 
-Master Thesis Project | Author: Soraya Partow | Supervisor: Dr. Satyaki Nan | October 2025
 
 ---
 
