@@ -13,10 +13,16 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
     actionTemplate?.justification?.moral_principles?.join('\n') || ''
   );
   const [context, setContext] = useState(actionTemplate?.justification?.context || '');
+  const [errors, setErrors] = useState({});
 
   // Calculate credence sum in real-time
   const credenceSum = Object.values(credenceInputs).reduce((sum, val) => sum + val, 0);
   const isCredenceValid = Math.abs(credenceSum - 1.0) < 0.01;
+  const hasMinimumOutcomes = Object.keys(credenceInputs).length >= 2;
+  const isConfidenceValid = confidence >= 0 && confidence <= 1;
+  
+  // Validate justification has at least one component
+  const hasJustification = facts.trim() || rules.trim() || moralPrinciples.trim();
 
   const handleCredenceChange = (outcome, value) => {
     setCredenceInputs(prev => ({
@@ -52,9 +58,38 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!proposition.trim()) {
+      newErrors.proposition = 'Proposition is required';
+    }
+
+    if (!hasMinimumOutcomes) {
+      newErrors.credence = 'At least two outcomes are required';
+    } else if (!isCredenceValid) {
+      newErrors.credence = `Credences must sum to 1.0 (current: ${credenceSum.toFixed(3)})`;
+    }
+
+    if (!isConfidenceValid) {
+      newErrors.confidence = 'Confidence must be between 0 and 1';
+    }
+
+    if (!hasJustification) {
+      newErrors.justification = 'At least one justification component (facts, rules, or moral principles) is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const belief = {
         proposition,
@@ -69,8 +104,9 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
       };
 
       onBeliefCreated(belief);
+      setErrors({});
     } catch (error) {
-      alert(`Error creating belief: ${error.message}`);
+      setErrors({ submit: error.message });
     }
   };
 
@@ -88,13 +124,18 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
             value={proposition}
             onChange={(e) => setProposition(e.target.value)}
             placeholder="e.g., allocate_to_younger"
+            className={errors.proposition ? 'input-error' : ''}
             required
           />
+          {errors.proposition && (
+            <span className="error-message">{errors.proposition}</span>
+          )}
         </div>
 
         {/* Credence (π) */}
         <div className="form-section">
           <h3>Credence (π) - Probability Distribution</h3>
+          <p className="helper-text">Define probability distribution over outcomes (must sum to 1.0)</p>
           <div className="credence-status">
             Sum: <strong className={isCredenceValid ? 'valid' : 'invalid'}>
               {credenceSum.toFixed(3)}
@@ -105,6 +146,9 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
               </button>
             )}
           </div>
+          {errors.credence && (
+            <span className="error-message">{errors.credence}</span>
+          )}
           
           <div className="credence-inputs">
             {Object.entries(credenceInputs).map(([outcome, value]) => (
@@ -147,6 +191,7 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
         {/* Confidence (κ) */}
         <div className="form-section">
           <h3>Confidence (κ) - Evidence Strength</h3>
+          <p className="helper-text">How confident are you in this belief? (0 = no confidence, 1 = absolute certainty)</p>
           <div className="confidence-input">
             <input
               type="range"
@@ -167,6 +212,10 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
         {/* Justification (J) */}
         <div className="form-section">
           <h3>Justification (J) - Reasoning Chain</h3>
+          <p className="helper-text">Provide at least one type of justification (facts, rules, or moral principles)</p>
+          {errors.justification && (
+            <span className="error-message">{errors.justification}</span>
+          )}
           
           <div className="form-group">
             <label htmlFor="facts">Facts (one per line)</label>
@@ -213,10 +262,14 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
           </div>
         </div>
 
+        {errors.submit && (
+          <div className="error-message error-submit">{errors.submit}</div>
+        )}
+
         <button 
           type="submit" 
           className="btn-create" 
-          disabled={!isCredenceValid || !proposition}
+          disabled={!isCredenceValid || !proposition || !hasJustification}
         >
           Create Belief
         </button>

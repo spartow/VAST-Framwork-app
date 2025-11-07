@@ -1,0 +1,236 @@
+.print-view-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+  background-color: var(--color-bg-secondary);
+}
+
+.print-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.print-header h1 {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.print-actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.print-content {
+  background-color: white;
+  padding: var(--spacing-3xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.print-title {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+  padding-bottom: var(--spacing-xl);
+  border-bottom: 3px solid var(--color-primary);
+}
+
+.print-title h1 {
+  font-size: var(--font-size-3xl);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.print-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.print-date {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.overall-score-print {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+  padding: var(--spacing-xl);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+  border-radius: var(--radius-xl);
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xl);
+}
+
+.score-number {
+  font-size: 5rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.score-text {
+  text-align: left;
+}
+
+.score-label {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.score-quality {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.gauges-print-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-3xl);
+}
+
+.gauge-print-card {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  border: 2px solid var(--color-border);
+}
+
+.gauge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.gauge-header h2 {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-primary);
+}
+
+.gauge-score {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.gauge-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.gauge-bar {
+  width: 100%;
+  height: 24px;
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--spacing-md);
+}
+
+.gauge-bar-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: var(--radius-full);
+}
+
+.gauge-label {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.gauge-explanation {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+.print-footer {
+  margin-top: var(--spacing-3xl);
+  padding-top: var(--spacing-xl);
+  border-top: 2px solid var(--color-border);
+}
+
+.footer-content {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.footer-content p {
+  margin: var(--spacing-xs) 0;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: var(--spacing-3xl);
+}
+
+.no-data-message h2 {
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.no-data-message p {
+  color: var(--color-text-secondary);
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-view-container {
+    max-width: none;
+    padding: 0;
+    background-color: white;
+  }
+
+  .print-content {
+    padding: 20mm;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .gauges-print-grid {
+    page-break-inside: avoid;
+  }
+
+  .gauge-print-card {
+    page-break-inside: avoid;
+    border: 1px solid #333;
+  }
+
+  @page {
+    size: landscape;
+    margin: 15mm;
+  }
+}
+
+@media (max-width: 968px) {
+  .gauges-print-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .score-display {
+    flex-direction: column;
+  }
+
+  .score-text {
+    text-align: center;
+  }
+}

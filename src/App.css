@@ -95,6 +95,13 @@ body {
   color: white;
 }
 
+.header-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+
 /* Navigation */
 .main-nav {
   background: white;
@@ -437,4 +444,154 @@ body {
     padding: 0 16px;
     margin: 20px auto;
   }
+}
+
+/* Comparison View */
+.comparison-view {
+  background: var(--color-bg-primary);
+}
+
+.comparison-card {
+  border: 2px solid var(--color-border);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.comparison-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.score-circle-small {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 6px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--spacing-lg) auto;
+}
+
+.score-number {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.framework-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-xs) 0;
+  font-size: var(--font-size-sm);
+}
+
+.detail-row strong {
+  color: var(--color-text-secondary);
+}
+
+.detail-row span {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Export Actions */
+.export-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: var(--spacing-lg) 0;
+}
+
+/* Actions List */
+.actions-list {
+  margin-top: var(--spacing-lg);
+}
+
+.actions-list h3 {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-primary);
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  align-items: center;
+  text-align: center;
+}
+
+.action-item strong {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+/* JWMC Revision Section */
+.jwmc-revision-section {
+  background: var(--color-bg-secondary);
+  border-left: 4px solid var(--color-primary);
+}
+
+.jwmc-revision-section h3 {
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text-primary);
+}
+
+/* Beliefs Container */
+.beliefs-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Section Description */
+.section-description {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Scenario Icon */
+.scenario-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.scenario-stats {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin: var(--spacing-md) 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.stat-value {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.scenario-buttons {
+  margin-top: var(--spacing-md);
+}
+
+/* Score Display */
+.score-display {
+  display: flex;
+  justify-content: center;
+  margin: var(--spacing-lg) 0;
 }

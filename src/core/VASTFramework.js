@@ -199,6 +199,7 @@ export class VASTFramework {
 
       // Compute expected utility
       let expectedUtility = 0.0;
+      // eslint-disable-next-line no-unused-vars
       for (const [outcome, probability] of Object.entries(belief.credence)) {
         const outcomeUtility = baseUtility * moralWeight * cascadePenalty;
         expectedUtility += probability * outcomeUtility;
@@ -316,6 +317,7 @@ export class VASTFramework {
   _assessConstraintViolations(action, context) {
     const violations = {};
     const actionLower = action.toLowerCase();
+    // eslint-disable-next-line no-unused-vars
     const scenarioLower = (context.scenario || '').toLowerCase();
 
     // Level 1: Life preservation

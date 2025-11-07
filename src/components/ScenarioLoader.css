@@ -24,12 +24,62 @@
   border-radius: 12px;
   padding: 24px;
   transition: all 0.3s;
+  position: relative;
+}
+
+.scenario-card.recommended {
+  border-color: #fbbf24;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
 }
 
 .scenario-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   border-color: #1fb8cd;
+}
+
+.recommended-badge {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  background: #fbbf24;
+  color: #78350f;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.scenario-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.thesis-ref {
+  font-size: 0.85em;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.difficulty {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.difficulty-medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.difficulty-high {
+  background: #fee2e2;
+  color: #991b1b;
 }
 
 .scenario-icon {

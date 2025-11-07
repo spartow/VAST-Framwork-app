@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { VASTFramework } from './core/VASTFramework';
 import ScenarioLoader from './components/ScenarioLoader';
 import BeliefCreator from './components/BeliefCreator';
 import VastGauges from './components/VastGauges';
 import DecisionMaker from './components/DecisionMaker';
 import AuditTrail from './components/AuditTrail';
+import Toast from './components/Toast';
 import { comparisonFrameworks } from './data/scenarios';
 import './App.css';
 
@@ -18,7 +20,10 @@ function App() {
 
   const showNotification = (message, type = 'success') => {
     setNotification({ message, type });
-    setTimeout(() => setNotification(null), 3000);
+  };
+
+  const closeNotification = () => {
+    setNotification(null);
   };
 
   const handleScenarioLoad = (scenario) => {
@@ -121,11 +126,14 @@ function App() {
         </div>
       </header>
 
-      {/* Notification */}
+      {/* Toast Notification */}
       {notification && (
-        <div className={`notification notification-${notification.type}`}>
-          {notification.message}
-        </div>
+        <Toast 
+          message={notification.message} 
+          type={notification.type}
+          onClose={closeNotification}
+          duration={3000}
+        />
       )}
 
       {/* Main Navigation */}

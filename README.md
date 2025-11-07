@@ -360,6 +360,131 @@ If you use this framework in your research, please cite:
 
 ---
 
+## New Features (v1.1)
+
+### Demo Mode & Guided Tour
+- **Demo Mode Button**: Launches curated scenarios for committee presentations
+- **6-Step Guided Tour**: Interactive walkthrough of the entire workflow
+- **Keyboard Navigation**: Arrow keys, Home/End for quick navigation
+
+### Enhanced UI/UX
+- **Dark Mode Support**: Automatic theme based on system preferences
+- **Accessible Notifications**: ARIA-compliant toast notifications
+- **Focus Visible Styles**: Clear keyboard navigation indicators
+- **Card-Based Layout**: Consistent, modern design system
+
+### Improved Gauges
+- **Consistent Semi-Donut Charts**: All four metrics use the same visualization
+- **Print View Route** (`/report/gauges`): Optimized for printing and slides
+- **Qualitative Labels**: Excellent/Good/Fair/Needs Improvement indicators
+- **Color-Coded Performance**: Green/Amber/Orange/Red thresholds
+
+### Belief Validation
+- **Real-Time Validation**: Inline error messages as you type
+- **Credence Normalization**: Auto-normalize button when sum ≠ 1.0
+- **Minimum Requirements**: Enforces at least 2 outcomes and 1 justification component
+- **Helper Text**: Contextual guidance for each field
+
+### Persistence & Export
+- **localStorage Sync**: Auto-saves beliefs and decisions
+- **Export Audit Trail (JSON)**: Complete framework state for analysis
+- **Export Decisions (CSV)**: Tabular format for spreadsheet analysis
+- **Print-Optimized Reports**: One-page decision summaries
+
+### Presentation Mode (`/present`)
+- **Timer with Pause/Resume**: Track presentation progress
+- **6-Section Navigation**: Introduction → Scenario → Beliefs → Decision → Gauges → Audit
+- **Keyboard Shortcuts**: Arrow keys, Space (pause), Home/End
+- **Section Progress Dots**: Visual navigation with icons
+- **Optimized for 30-35 min Talks**: See `PRESENTATION_GUIDE.md`
+
+### JWMC Revision Demo
+- **Interactive Revision Button**: Apply sample evidence updates
+- **Moral Weight Display**: Shows alignment calculation
+- **Before/After Gauges**: Demonstrates impact of belief updates
+- **Inline Explainer**: "JWMC = Justified Weighted Moral Compatibility"
+
+### Error Resilience
+- **Error Boundary**: Catches and displays app crashes gracefully
+- **SSR/Test Guards**: Safely handles `performance.now()` and browser globals
+- **Fail-Safe Messaging**: User-friendly errors instead of crashes
+- **Component Stack Traces**: Technical details for debugging
+
+## Development
+
+### Code Quality
+
+```bash
+# Lint JavaScript/TypeScript files
+npm run lint
+
+# Auto-fix linting issues
+npm run lint:fix
+
+# Format code with Prettier
+npm run format
+```
+
+### Testing (Future)
+```bash
+npm test
+```
+
+Tests planned for:
+- `_subjectiveLogicCombine`
+- `_calculateMoralWeightForAction`
+- `_calculateCascadePenalty`
+- `getGauges`
+
+---
+
+## Future Improvements
+
+### Optional Vite Migration
+
+For faster builds and HMR, consider migrating from CRA to Vite:
+
+```bash
+# 1. Install Vite and plugins
+npm install -D vite @vitejs/plugin-react
+
+# 2. Create vite.config.js
+cat > vite.config.js << EOF
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000
+  }
+})
+EOF
+
+# 3. Move index.html to root (from public/)
+# 4. Update index.html script src to /src/index.js
+# 5. Update package.json scripts:
+#    "dev": "vite"
+#    "build": "vite build"
+#    "preview": "vite preview"
+
+# 6. Remove react-scripts
+npm uninstall react-scripts
+```
+
+**Benefits:**
+- ~10x faster cold starts
+- Instant HMR (< 50ms)
+- Smaller bundle sizes
+- Better tree-shaking
+
+**When to migrate:**
+- After thesis defense
+- When build times become prohibitive (> 30s)
+- For production deployment optimization
+
+---
+
 ## License
 
 This software is provided for academic and research purposes.
