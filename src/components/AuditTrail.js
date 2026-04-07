@@ -4,6 +4,8 @@ import './AuditTrail.css';
 const AuditTrail = ({ auditData, onExport }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedEntry, setExpandedEntry] = useState(null);
+  const [verifyingEntry, setVerifyingEntry] = useState(null);
+  const [verificationResults, setVerificationResults] = useState({});
 
   if (!auditData || auditData.decision_log.length === 0) {
     return (
@@ -30,6 +32,76 @@ const AuditTrail = ({ auditData, onExport }) => {
     link.download = `vast_audit_${new Date().toISOString().split('T')[0]}.json`;
     link.click();
     URL.revokeObjectURL(url);
+  };
+  
+  const handleVerify = async (entry, index) => {
+    setVerifyingEntry(index);
+    
+    try {
+      const blockchain = entry.blockchain;
+      if (!blockchain || !blockchain.dt) {
+        setVerificationResults({
+          ...verificationResults,
+          [index]: { ok: false, reason: 'No blockchain record for this decision' }
+        });
+        return;
+      }
+      
+      // Import verification functions
+      const { verifyDecisionRecord } = await import('../core/blockchain/decisionRecord');
+      const { verifyInclusion } = await import('../core/blockchain/merkle');
+      const { mockLedger } = await import('../core/blockchain/ledger.mock');
+      
+      // 1. Verify agent signature on dt
+      const signatureValid = await verifyDecisionRecord(blockchain.dt);
+      if (!signatureValid) {
+        setVerificationResults({
+          ...verificationResults,
+          [index]: { ok: false, reason: 'Agent signature verification failed' }
+        });
+        return;
+      }
+      
+      // 2. Check rid exists in registry
+      const ruleHash = mockLedger.rules.getRuleHash(blockchain.rid);
+      if (!ruleHash) {
+        setVerificationResults({
+          ...verificationResults,
+          [index]: { ok: false, reason: `Rule ${blockchain.rid} not found in registry` }
+        });
+        return;
+      }
+      
+      // 3. Verify Merkle inclusion proof
+      if (blockchain.inclusion_proof && blockchain.inclusion_proof.siblings.length > 0) {
+        const merkleValid = await verifyInclusion(
+          blockchain.leaf_hash,
+          blockchain.sth.root,
+          blockchain.inclusion_proof
+        );
+        if (!merkleValid) {
+          setVerificationResults({
+            ...verificationResults,
+            [index]: { ok: false, reason: 'Merkle inclusion proof verification failed' }
+          });
+          return;
+        }
+      }
+      
+      // All checks passed
+      setVerificationResults({
+        ...verificationResults,
+        [index]: { ok: true, checkedAt: Date.now() }
+      });
+      
+    } catch (error) {
+      setVerificationResults({
+        ...verificationResults,
+        [index]: { ok: false, reason: `Verification error: ${error.message}` }
+      });
+    } finally {
+      setVerifyingEntry(null);
+    }
   };
 
   return (
@@ -141,6 +213,77 @@ const AuditTrail = ({ auditData, onExport }) => {
                     </div>
                   </div>
                 </div>
+                
+                {/* Blockchain Section */}
+                {entry.blockchain && (
+                  <div className="details-section blockchain-section">
+                    <h4>Blockchain Verification</h4>
+                    <div className="blockchain-info">
+                      <div className="blockchain-field">
+                        <span className="field-label">Decision ID:</span>
+                        <span className="field-value mono">{entry.blockchain.decision_id.substring(0, 16)}...</span>
+                      </div>
+                      <div className="blockchain-field">
+                        <span className="field-label">Rule Set (RID):</span>
+                        <span className="field-value">{entry.blockchain.rid}</span>
+                      </div>
+                      <div className="blockchain-field">
+                        <span className="field-label">Leaf Hash:</span>
+                        <span className="field-value mono">{entry.blockchain.leaf_hash.substring(0, 16)}...</span>
+                      </div>
+                      {entry.blockchain.sth?.root && (
+                        <>
+                          <div className="blockchain-field">
+                            <span className="field-label">STH Root:</span>
+                            <span className="field-value mono">{entry.blockchain.sth.root.substring(0, 16)}...</span>
+                          </div>
+                          <div className="blockchain-field">
+                            <span className="field-label">Batch Size:</span>
+                            <span className="field-value">{entry.blockchain.sth.size}</span>
+                          </div>
+                          <div className="blockchain-field">
+                            <span className="field-label">Anchored:</span>
+                            <span className="field-value">
+                              {new Date(entry.blockchain.sth.t).toLocaleString()}
+                            </span>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    
+                    <div className="verification-status">
+                      {verificationResults[index] ? (
+                        verificationResults[index].ok ? (
+                          <div className="verification-result success">
+                            <span className="verification-icon">✅</span>
+                            <span>Verified</span>
+                            {verificationResults[index].checkedAt && (
+                              <span className="verification-time">
+                                ({new Date(verificationResults[index].checkedAt).toLocaleTimeString()})
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="verification-result failure">
+                            <span className="verification-icon">❌</span>
+                            <span>{verificationResults[index].reason}</span>
+                          </div>
+                        )
+                      ) : (
+                        <button 
+                          className="btn-verify"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleVerify(entry, index);
+                          }}
+                          disabled={verifyingEntry === index}
+                        >
+                          {verifyingEntry === index ? 'Verifying...' : '🔐 Verify'}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

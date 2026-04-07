@@ -10,7 +10,10 @@ import GuidedTour from './components/GuidedTour';
 import PresentationMode from './components/PresentationMode';
 import GaugesPrintView from './components/GaugesPrintView';
 import FrameworkComparison from './components/FrameworkComparison';
-import { demoScenarios } from './data/scenarios';
+import Rules from './components/Rules';
+import EvidenceImport from './components/EvidenceImport';
+import BlockchainStatus from './components/BlockchainStatus';
+import { scenarios, demoScenarios } from './data/scenarios';
 import { usePersistence, exportAuditTrailJSON, exportDecisionsCSV } from './hooks/usePersistence';
 import './App.css';
 
@@ -62,8 +65,11 @@ function AppMain() {
     setDemoMode(true);
     setShowTour(true);
     // Load first demo scenario
-    const firstScenario = demoScenarios.scenario_a;
-    handleScenarioLoad(firstScenario);
+    const firstScenarioId = demoScenarios[0];
+    const firstScenario = scenarios[firstScenarioId];
+    if (firstScenario) {
+      handleScenarioLoad(firstScenario);
+    }
   };
 
   const handleJWMCDemo = (scenario) => {
@@ -108,14 +114,20 @@ function AppMain() {
       };
 
       const result = vast.jwmcRevision(selectedAction, newEvidence);
-      showNotification(
-        `JWMC revision complete. Moral weight: ${result.moralWeight.toFixed(3)}`,
-        'info'
-      );
-
+      
+      // Recalculate decision with updated beliefs
+      const actionIds = currentScenario.actions.map(a => a.id);
+      const updatedDecision = vast.eeuCcDecision(actionIds, currentScenario.context);
+      setDecisionResult(updatedDecision);
+      
       // Recalculate gauges
-      const updatedGauges = vast.calculateVastGauges(selectedAction);
+      const updatedGauges = vast.calculateVastGauges(updatedDecision.selectedAction);
       setCurrentGauges(updatedGauges);
+      
+      showNotification(
+        `JWMC revision complete. Moral weight: ${result.moralWeight.toFixed(3)}. Decision updated.`,
+        'success'
+      );
     } catch (error) {
       showNotification(error.message, 'error');
     }
@@ -226,7 +238,10 @@ function AppMain() {
 
       {/* Print View */}
       {activeTab === 'print-gauges' && (
-        <GaugesPrintView gauges={currentGauges} />
+        <GaugesPrintView 
+          gauges={currentGauges}
+          onBack={() => setActiveTab('gauges')}
+        />
       )}
 
       {/* Main Application */}
@@ -298,6 +313,24 @@ function AppMain() {
                   📝 Audit Trail
                 </button>
                 <button 
+                  className={activeTab === 'blockchain' ? 'active' : ''}
+                  onClick={() => setActiveTab('blockchain')}
+                >
+                  ⛓️ Blockchain
+                </button>
+                <button 
+                  className={activeTab === 'rules' ? 'active' : ''}
+                  onClick={() => setActiveTab('rules')}
+                >
+                  📜 Rules
+                </button>
+                <button 
+                  className={activeTab === 'evidence' ? 'active' : ''}
+                  onClick={() => setActiveTab('evidence')}
+                >
+                  🔍 Evidence
+                </button>
+                <button 
                   className={activeTab === 'compare' ? 'active' : ''}
                   onClick={() => setActiveTab('compare')}
                 >
@@ -326,19 +359,38 @@ function AppMain() {
                           <p className="card-description">{currentScenario.description}</p>
                         </div>
                         
-                        <div className="actions-list">
-                          <h3>Available Actions:</h3>
-                          <div className="grid grid-cols-3">
-                            {currentScenario.actions.map(action => (
-                              <div key={action.id} className="action-item card card-compact">
-                                <strong>{action.label}</strong>
-                                <span className="badge badge-primary">
-                                  κ = {action.confidence.toFixed(2)}
-                                </span>
-                              </div>
-                            ))}
+                        {/* Current Beliefs Display */}
+                        {vast.beliefs.size > 0 && (
+                          <div className="current-beliefs-list">
+                            <h3>Current Beliefs:</h3>
+                            <div className="beliefs-grid">
+                              {Array.from(vast.beliefs.entries()).map(([id, belief]) => {
+                                const action = currentScenario.actions.find(a => a.id === id);
+                                return (
+                                  <div key={id} className="belief-card card card-compact">
+                                    <div className="belief-header">
+                                      <strong>{action?.label || id}</strong>
+                                    </div>
+                                    <div className="belief-details">
+                                      <div className="belief-stat">
+                                        <span className="stat-label">π (Credence):</span>
+                                        <span className="stat-value">{JSON.stringify(belief.credence)}</span>
+                                      </div>
+                                      <div className="belief-stat">
+                                        <span className="stat-label">κ (Confidence):</span>
+                                        <span className="stat-value badge badge-primary">{belief.confidence.toFixed(2)}</span>
+                                      </div>
+                                      <div className="belief-stat">
+                                        <span className="stat-label">J (Justification):</span>
+                                        <span className="stat-value text-sm">{belief.justification.moral_principles?.slice(0, 2).join(', ')}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
-                        </div>
+                        )}
 
                         {/* JWMC Revision Section */}
                         <div className="jwmc-revision-section card card-compact mt-lg">
@@ -358,7 +410,10 @@ function AppMain() {
                       </div>
                     )}
                     
-                    <BeliefCreator onBeliefCreated={handleBeliefCreated} />
+                    <BeliefCreator 
+                      onBeliefCreated={handleBeliefCreated}
+                      hasExistingBeliefs={vast.beliefs.size > 0}
+                    />
                   </div>
                 )}
 
@@ -410,6 +465,18 @@ function AppMain() {
                   </div>
                 )}
 
+                {activeTab === 'blockchain' && (
+                  <BlockchainStatus />
+                )}
+
+                {activeTab === 'rules' && (
+                  <Rules />
+                )}
+
+                {activeTab === 'evidence' && (
+                  <EvidenceImport />
+                )}
+
                 {activeTab === 'compare' && (
                   <FrameworkComparison />
                 )}
@@ -417,10 +484,7 @@ function AppMain() {
 
               {/* Footer */}
               <footer className="app-footer">
-                <p>
-                  VAST Framework v1.0.0 | Master Thesis by Soraya Partow | 
-                  Supervisor: Dr. Satyaki Nan | October 2025
-                </p>
+                <p>VAST Framework v1.0.0 | November 2025</p>
               </footer>
         </>
       )}

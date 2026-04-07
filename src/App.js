@@ -7,6 +7,8 @@ import VastGauges from './components/VastGauges';
 import DecisionMaker from './components/DecisionMaker';
 import AuditTrail from './components/AuditTrail';
 import Toast from './components/Toast';
+import Rules from './components/Rules';
+import EvidenceImport from './components/EvidenceImport';
 import { comparisonFrameworks } from './data/scenarios';
 import './App.css';
 
@@ -169,6 +171,18 @@ function App() {
           📝 Audit Trail
         </button>
         <button 
+          className={activeTab === 'rules' ? 'active' : ''}
+          onClick={() => setActiveTab('rules')}
+        >
+          📜 Rules
+        </button>
+        <button 
+          className={activeTab === 'evidence' ? 'active' : ''}
+          onClick={() => setActiveTab('evidence')}
+        >
+          🔍 Evidence
+        </button>
+        <button 
           className={activeTab === 'compare' ? 'active' : ''}
           onClick={() => setActiveTab('compare')}
         >
@@ -238,6 +252,14 @@ function App() {
           <AuditTrail auditData={vast.exportAuditTrail()} />
         )}
 
+        {activeTab === 'rules' && (
+          <Rules />
+        )}
+
+        {activeTab === 'evidence' && (
+          <EvidenceImport />
+        )}
+
         {activeTab === 'compare' && (
           <div className="comparison-view">
             <h2>Framework Comparison</h2>
@@ -305,10 +327,7 @@ function App() {
 
       {/* Footer */}
       <footer className="app-footer">
-        <p>
-          VAST Framework v1.0.0 | Master Thesis by Soraya Partow | 
-          Supervisor: Dr. Satyaki Nan | October 2025
-        </p>
+        <p>VAST Framework v1.0.0 | November 2025</p>
       </footer>
     </div>
   );

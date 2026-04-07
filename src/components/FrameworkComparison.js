@@ -90,7 +90,7 @@ const FrameworkComparison = () => {
       </div>
       
       <div className="key-findings">
-        <h3>📊 Key Findings from Thesis Evaluation (Chapter 7)</h3>
+        <h3>📊 Key Findings from Thesis Evaluation</h3>
         <div className="findings-grid">
           <div className="finding-card">
             <div className="finding-value">+29%</div>
@@ -105,8 +105,8 @@ const FrameworkComparison = () => {
             <div className="finding-label">improvement over Value Learning</div>
           </div>
           <div className="finding-card highlight">
-            <div className="finding-value">4.2/5.0</div>
-            <div className="finding-label">Human ethical acceptability rating</div>
+            <div className="finding-value">84%</div>
+            <div className="finding-label">Human ethical acceptability</div>
           </div>
         </div>
       </div>

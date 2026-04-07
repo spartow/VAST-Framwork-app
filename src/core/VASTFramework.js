@@ -3,6 +3,8 @@
  * Values Alignment & Stability Tracker for AI Moral Alignment
  */
 
+import { LogManager } from './log/LogManager';
+
 export class VASTBelief {
   constructor(credence, confidence, justification) {
     // Validate and normalize credence
@@ -53,6 +55,9 @@ export class VASTFramework {
       avg_processing_time: 0.0,
       alignment_scores: []
     };
+    
+    // Initialize LogManager for blockchain integration
+    this.logManager = new LogManager('vast-scenario');
   }
 
   createBelief(proposition, credence, confidence, justification) {
@@ -197,11 +202,12 @@ export class VASTFramework {
       const moralWeight = this._calculateMoralWeightForAction(belief, context);
       const cascadePenalty = this._calculateCascadePenalty(action, context);
 
-      // Compute expected utility
+      // Compute expected utility across outcomes
       let expectedUtility = 0.0;
-      // eslint-disable-next-line no-unused-vars
       for (const [outcome, probability] of Object.entries(belief.credence)) {
-        const outcomeUtility = baseUtility * moralWeight * cascadePenalty;
+        // Outcome-specific utility modifier based on desirability
+        const outcomeModifier = this._getOutcomeModifier(outcome);
+        const outcomeUtility = baseUtility * moralWeight * cascadePenalty * outcomeModifier;
         expectedUtility += probability * outcomeUtility;
       }
 
@@ -215,7 +221,39 @@ export class VASTFramework {
         moralPrinciples: belief.justification.moral_principles
       };
 
-      // Log decision
+      // Log decision with blockchain integration via LogManager
+      const logEntry = {
+        beliefs_before: [],
+        beliefs_after: [],
+        candidate_actions: actions,
+        eeucc_breakdown: Object.entries(calculations).map(([actionId, calc]) => ({
+          action_id: actionId,
+          eu_base: calc.baseUtility,
+          penalties: [{ constraint_id: 'moral', penalty: 1 - calc.moralWeight }],
+          eeu_total: calc.expectedUtility
+        })),
+        chosen_action: action,
+        justification_chain: belief.justification.moral_principles || [],
+        gauge_scores: {
+          calibration: belief.confidence,
+          normative_alignment: moralWeight,
+          coherence: 1 - cascadePenalty,
+          reasoning: (belief.justification.facts?.length || 0) / 10,
+          overall_vast_score: expectedUtility
+        },
+        alerts: [],
+        perception: {
+          event: context.scenario || 'decision',
+          source: 'vast-framework'
+        }
+      };
+      
+      // Use LogManager to append with blockchain metadata
+      this.logManager.append(logEntry).catch(err => {
+        console.warn('Failed to log to blockchain:', err);
+      });
+      
+      // Keep legacy decision log for compatibility
       this.decisionLog.push({
         timestamp: new Date().toISOString(),
         action,
@@ -312,6 +350,59 @@ export class VASTFramework {
     }
 
     return Math.max(0.1, penalty);
+  }
+
+  _getOutcomeModifier(outcome) {
+    // Convert outcome to lowercase for matching
+    const outcomeLower = outcome.toLowerCase();
+    
+    // Positive outcomes - high utility modifiers
+    const positivePatterns = {
+      'survives': 1.8,
+      'effective': 1.6,
+      'no_injury': 1.7,
+      'avoids': 1.6,
+      'respects_freedom': 1.4,
+      'maintains_access': 1.3,
+      'mitigates_harm': 1.5,
+      'passenger_safe': 1.6,
+      'pedestrian_safe': 1.7,
+      'approved': 1.3,
+      'treated': 1.5,
+      'contained': 1.6
+    };
+    
+    // Negative outcomes - low utility modifiers
+    const negativePatterns = {
+      'dies': 0.2,
+      'ineffective': 0.5,
+      'minor_injury': 0.6,
+      'hits_pedestrian': 0.3,
+      'passenger_injured': 0.3,
+      'censors_truth': 0.4,
+      'allows_harm': 0.4,
+      'denied': 0.5,
+      'untreated': 0.3,
+      'spreads': 0.2,
+      'serious_injury': 0.25
+    };
+    
+    // Check positive patterns
+    for (const [pattern, modifier] of Object.entries(positivePatterns)) {
+      if (outcomeLower.includes(pattern)) {
+        return modifier;
+      }
+    }
+    
+    // Check negative patterns
+    for (const [pattern, modifier] of Object.entries(negativePatterns)) {
+      if (outcomeLower.includes(pattern)) {
+        return modifier;
+      }
+    }
+    
+    // Default neutral modifier
+    return 1.0;
   }
 
   _assessConstraintViolations(action, context) {
@@ -432,6 +523,30 @@ export class VASTFramework {
   }
 
   exportAuditTrail() {
+    // Get logs from LogManager (with blockchain metadata)
+    const logManagerLogs = this.logManager.getAllLogs();
+    console.log('[VASTFramework] LogManager logs:', logManagerLogs.length);
+    console.log('[VASTFramework] Decision log:', this.decisionLog.length);
+    
+    // Show first log with blockchain data
+    if (logManagerLogs.length > 0) {
+      console.log('[VASTFramework] First log blockchain:', logManagerLogs[0].blockchain);
+    }
+    
+    // Merge with legacy decision log - match by index since they're appended in same order
+    const mergedLogs = this.decisionLog.map((legacyLog, index) => {
+      // Get corresponding log from LogManager by index
+      const logManagerLog = logManagerLogs[index];
+      
+      // Return merged entry with blockchain data if available
+      return {
+        ...legacyLog,
+        blockchain: logManagerLog?.blockchain || null
+      };
+    });
+    
+    console.log('[VASTFramework] Merged logs with blockchain:', mergedLogs.filter(l => l.blockchain).length);
+    
     return {
       framework_metadata: {
         version: '1.0.0',
@@ -447,7 +562,7 @@ export class VASTFramework {
         confidence: belief.confidence,
         justification: belief.justification
       })),
-      decision_log: this.decisionLog
+      decision_log: mergedLogs
     };
   }
 }

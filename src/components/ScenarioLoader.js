@@ -1,5 +1,5 @@
 import React from 'react';
-import { scenarios, demoScenarios } from '../data/scenarios';
+import { scenarios } from '../data/scenarios';
 import './ScenarioLoader.css';
 
 const ScenarioLoader = ({ onScenarioLoad, onJWMCDemo }) => {
@@ -21,26 +21,16 @@ const ScenarioLoader = ({ onScenarioLoad, onJWMCDemo }) => {
 
   return (
     <div className="scenario-loader">
-      <h2>Thesis Scenarios</h2>
-      <p className="section-description">
-        Five ethical decision scenarios from Master's Thesis (Section 6.2)
-        {' • '}
-        <strong>Recommended for demo:</strong> Scenarios 1 & 4
-      </p>
+      <h2>Scenarios</h2>
       
-      <div className="scenarios-grid">
+      <div className="scenarios-container">
+        <div className="scenarios-grid">
         {Object.entries(scenarios).map(([id, scenario]) => {
-          const isRecommended = demoScenarios.includes(id);
-          
           return (
             <div 
               key={id} 
-              className={`scenario-card ${isRecommended ? 'recommended' : ''}`}
+              className="scenario-card"
             >
-              {isRecommended && (
-                <div className="recommended-badge">⭐ Recommended for Demo</div>
-              )}
-              
               <div className="scenario-icon">
                 {getScenarioIcon(scenario.domain)}
               </div>
@@ -48,7 +38,6 @@ const ScenarioLoader = ({ onScenarioLoad, onJWMCDemo }) => {
               <h3>{scenario.title}</h3>
               
               <div className="scenario-meta">
-                <span className="thesis-ref">📖 {scenario.thesis_section}</span>
                 <span className={`difficulty difficulty-${scenario.difficulty}`}>
                   {scenario.difficulty.toUpperCase()}
                 </span>
@@ -82,6 +71,18 @@ const ScenarioLoader = ({ onScenarioLoad, onJWMCDemo }) => {
             </div>
           );
         })}
+        </div>
+        
+        <div className="difficulty-legend">
+          <div className="legend-item">
+            <span className="difficulty difficulty-medium">MEDIUM</span>
+            <span className="legend-text">Moderate uncertainty, manageable time</span>
+          </div>
+          <div className="legend-item">
+            <span className="difficulty difficulty-high">HIGH</span>
+            <span className="legend-text">High uncertainty or extreme time pressure</span>
+          </div>
+        </div>
       </div>
     </div>
   );

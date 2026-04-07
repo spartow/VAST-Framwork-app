@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './BeliefCreator.css';
 
-const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
+const BeliefCreator = ({ onBeliefCreated, actionTemplate, hasExistingBeliefs }) => {
+  const [isFormVisible, setIsFormVisible] = useState(!hasExistingBeliefs);
   const [proposition, setProposition] = useState(actionTemplate?.id || '');
   const [credenceInputs, setCredenceInputs] = useState(
     actionTemplate?.credence || { effective: 0.7, ineffective: 0.3 }
@@ -112,7 +113,26 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
 
   return (
     <div className="belief-creator">
-      <h2>Create VAST Belief</h2>
+      <div className="belief-creator-header">
+        <h2>Create VAST Belief</h2>
+        {hasExistingBeliefs && (
+          <button 
+            type="button"
+            onClick={() => setIsFormVisible(!isFormVisible)}
+            className="btn btn-secondary btn-sm"
+          >
+            {isFormVisible ? '− Hide Form' : '+ Add Custom Belief'}
+          </button>
+        )}
+      </div>
+      
+      {hasExistingBeliefs && !isFormVisible && (
+        <p className="info-message">
+          ✅ Beliefs have been auto-loaded from the scenario. Click "+ Add Custom Belief" if you want to create additional beliefs.
+        </p>
+      )}
+      
+      {isFormVisible && (
       <form onSubmit={handleSubmit}>
         
         {/* Proposition */}
@@ -274,6 +294,7 @@ const BeliefCreator = ({ onBeliefCreated, actionTemplate }) => {
           Create Belief
         </button>
       </form>
+      )}
     </div>
   );
 };

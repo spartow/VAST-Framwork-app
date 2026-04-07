@@ -171,6 +171,31 @@ export interface LogEntry {
   // Metadata
   scenario_id: string;
   seed?: number;                // For reproducibility
+  
+  // Blockchain integration (optional, added by AnchoringHub)
+  blockchain?: {
+    rid: string;
+    decision_id: string;
+    dt: import('./blockchain/decisionRecord').DecisionRecord;
+    leaf_hash: string;
+    sth: {
+      root: string;
+      size: number;
+      t: number;
+      hub_pubkey: string;
+      hub_signature: string;
+    };
+    inclusion_proof: {
+      siblings: string[];
+      directions: ("L" | "R")[];
+      index: number;
+    };
+    verified?: {
+      ok: boolean;
+      reason?: string;
+      checkedAt?: number;
+    };
+  };
 }
 
 export interface AuditTrail {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './GaugesPrintView.css';
 
-const GaugesPrintView = ({ gauges }) => {
+const GaugesPrintView = ({ gauges, onBack }) => {
   useEffect(() => {
     // Add print-specific class to body
     document.body.classList.add('print-view');
@@ -33,7 +33,7 @@ const GaugesPrintView = ({ gauges }) => {
           <button onClick={handlePrint} className="btn btn-primary">
             🖨️ Print Report
           </button>
-          <button onClick={() => window.history.back()} className="btn btn-secondary">
+          <button onClick={onBack} className="btn btn-secondary">
             ← Back
           </button>
         </div>

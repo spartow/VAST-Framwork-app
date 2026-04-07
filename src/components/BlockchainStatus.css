@@ -1,0 +1,170 @@
+.blockchain-status {
+  width: 100%;
+}
+
+.bc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .bc-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bc-panel {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  background: #ffffff;
+}
+
+.bc-panel-title {
+  font-size: 1.1em;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.bc-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid #f1f5f9;
+}
+
+.bc-row:first-of-type {
+  border-top: none;
+}
+
+.bc-label {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.bc-value {
+  color: #0f172a;
+}
+
+.bc-value.mono,
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  word-break: break-all;
+}
+
+.bc-mode {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  width: fit-content;
+}
+
+.bc-mode-mock {
+  color: #047857;
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.bc-mode-hardhat,
+.bc-mode-testnet {
+  color: #1d4ed8;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.bc-key {
+  padding: 10px 0;
+  border-top: 1px solid #f1f5f9;
+}
+
+.bc-key:first-of-type {
+  border-top: none;
+}
+
+.bc-key-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.bc-key-value {
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+  font-size: 0.9em;
+}
+
+.bc-copy {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.bc-copy:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bc-anchors {
+  margin-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+}
+
+.bc-anchors-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.bc-meta {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.bc-empty {
+  padding: 16px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  color: #64748b;
+  background: #f8fafc;
+}
+
+.bc-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.bc-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.bc-table th,
+.bc-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+  font-size: 0.95em;
+}
+
+.bc-table th {
+  background: #f8fafc;
+  color: #334155;
+}

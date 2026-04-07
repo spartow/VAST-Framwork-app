@@ -1,0 +1,10 @@
+{
+  "network": "mock",
+  "chainId": 31337,
+  "deployedAt": "2026-02-26T17:00:00.000Z",
+  "contracts": {
+    "RuleRegistry": "0x0000000000000000000000000000000000000000",
+    "AnchorRegistry": "0x0000000000000000000000000000000000000000"
+  },
+  "defaultRule": "vast-default-rules-v1"
+}

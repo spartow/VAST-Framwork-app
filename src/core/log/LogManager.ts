@@ -9,6 +9,11 @@ import {
   GaugeScores,
   ExportOptions,
 } from '../types';
+import { anchoringHub } from '../blockchain/anchoringHub';
+import { toDecisionRecord, signDecisionRecord } from '../blockchain/decisionRecord';
+import { getOrCreateAgentKeypair } from '../blockchain/crypto';
+import { getBlockchainConfig } from '../blockchain/config';
+import { mockLedger, initializeMockLedger } from '../blockchain/ledger.mock';
 
 export class LogManager {
   private logs: LogEntry[];
@@ -21,12 +26,41 @@ export class LogManager {
     this.scenarioId = scenarioId;
     this.startTime = Date.now();
     this.tickCounter = 0;
+    
+    // Initialize blockchain components
+    this.initializeBlockchain();
+  }
+  
+  /**
+   * Initialize blockchain anchoring hub and mock ledger
+   */
+  private async initializeBlockchain(): Promise<void> {
+    try {
+      // Ensure agent keypair exists
+      await getOrCreateAgentKeypair();
+      
+      // Initialize mock ledger with default rules
+      await initializeMockLedger();
+      
+      // Start the anchoring hub
+      anchoringHub.start();
+      
+      // Load any stored state
+      anchoringHub.loadFromStorage();
+      
+      console.log('[LogManager] Blockchain integration initialized');
+    } catch (error) {
+      console.warn('[LogManager] Failed to initialize blockchain:', error);
+    }
   }
 
   /**
    * Append a new log entry (immutable, append-only)
+   * Also creates blockchain decision record and submits to anchoring hub
    */
-  append(entry: Omit<LogEntry, 'tick' | 'timestamp' | 'scenario_id'>): LogEntry {
+  async append(
+    entry: Omit<LogEntry, 'tick' | 'timestamp' | 'scenario_id'>
+  ): Promise<LogEntry> {
     const fullEntry: LogEntry = {
       ...entry,
       tick: this.tickCounter++,
@@ -34,8 +68,116 @@ export class LogManager {
       scenario_id: this.scenarioId,
     };
 
+    // Create blockchain decision record
+    try {
+      const config = getBlockchainConfig();
+      const agentKeypair = await getOrCreateAgentKeypair();
+      const rid = config.defaultRuleSetId;
+      
+      // Compute model hash (framework version)
+      const modelHash = await import('../blockchain/decisionRecord').then(m => 
+        m.computeModelHash('vast-framework-v1.0.0', {})
+      );
+      
+      // Convert to decision record
+      const dtUnsigned = await toDecisionRecord(
+        fullEntry,
+        rid,
+        modelHash,
+        undefined, // salts
+        JSON.stringify(agentKeypair.publicKey)
+      );
+      
+      // Sign the decision record
+      const dt = await signDecisionRecord(dtUnsigned, agentKeypair.privateKey);
+      
+      // Submit to anchoring hub
+      const { index, leafHash } = await anchoringHub.appendDecision(dt);
+      
+      // Store initial blockchain metadata (will be updated when batch closes)
+      fullEntry.blockchain = {
+        rid,
+        decision_id: dt.id,
+        dt,
+        leaf_hash: leafHash,
+        sth: {
+          root: '',
+          size: 0,
+          t: 0,
+          hub_pubkey: '',
+          hub_signature: '',
+        },
+        inclusion_proof: {
+          siblings: [],
+          directions: [],
+          index,
+        },
+      };
+      
+      // Schedule update when batch closes (async, non-blocking)
+      this.scheduleBlockchainUpdate(fullEntry, dt.id);
+      
+    } catch (error) {
+      console.warn('[LogManager] Failed to create blockchain record:', error);
+      // Continue without blockchain metadata - decision is still valid
+    }
+
     this.logs.push(fullEntry);
     return fullEntry;
+  }
+  
+  /**
+   * Schedule update of blockchain metadata when batch closes
+   */
+  private scheduleBlockchainUpdate(entry: LogEntry, decisionId: string): void {
+    const config = getBlockchainConfig();
+    const maxWaitTime = (config.batchIntervalSeconds + 5) * 1000; // Batch interval + buffer
+    const checkInterval = 1000; // Check every second
+    let elapsed = 0;
+    
+    const checkAndUpdate = () => {
+      const anchored = anchoringHub.getAnchoredDecision(decisionId);
+      
+      if (anchored) {
+        // Batch closed, update entry with full proof and STH
+        entry.blockchain = {
+          ...entry.blockchain!,
+          dt: anchored.dt,
+          leaf_hash: anchored.leafHash,
+          sth: {
+            root: anchored.sthRef,
+            size: 0, // Will be populated from batch
+            t: 0,
+            hub_pubkey: '',
+            hub_signature: '',
+          },
+          inclusion_proof: anchored.inclusionProof,
+        };
+        
+        // Get full STH from batch
+        const batchSTH = anchoringHub.getSTH(anchored.sthRef);
+        if (batchSTH) {
+          entry.blockchain.sth = {
+            root: batchSTH.root,
+            size: batchSTH.size,
+            t: batchSTH.t,
+            hub_pubkey: batchSTH.hub_pubkey,
+            hub_signature: batchSTH.hub_signature,
+          };
+        }
+        
+        console.log(`[LogManager] Blockchain metadata updated for decision ${decisionId.substring(0, 8)}...`);
+      } else if (elapsed < maxWaitTime) {
+        // Batch not closed yet, check again
+        elapsed += checkInterval;
+        setTimeout(checkAndUpdate, checkInterval);
+      } else {
+        console.warn(`[LogManager] Timeout waiting for batch close for decision ${decisionId.substring(0, 8)}...`);
+      }
+    };
+    
+    // Start checking
+    setTimeout(checkAndUpdate, checkInterval);
   }
 
   /**

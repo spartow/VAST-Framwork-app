@@ -31,7 +31,7 @@ const DecisionMaker = ({ decisionResult, onNewDecision }) => {
           {selectedAction}
         </div>
         <div className="utility-score">
-          Expected Utility: <strong>{utilities[selectedAction].toFixed(4)}</strong>
+          Expected Utility: <strong>{utilities[selectedAction].toFixed(6)}</strong>
         </div>
       </div>
 
@@ -52,7 +52,7 @@ const DecisionMaker = ({ decisionResult, onNewDecision }) => {
                     background: action === selectedAction ? '#1fb8cd' : '#94a3b8'
                   }}
                 >
-                  <span className="utility-value">{utility.toFixed(4)}</span>
+                  <span className="utility-value">{utility.toFixed(6)}</span>
                 </div>
               </div>
             </div>
@@ -70,31 +70,31 @@ const DecisionMaker = ({ decisionResult, onNewDecision }) => {
           >
             <summary>
               <strong>{action}</strong>
-              <span className="calc-utility">{calc.expectedUtility.toFixed(4)}</span>
+              <span className="calc-utility">{calc.expectedUtility.toFixed(6)}</span>
             </summary>
             
             <div className="calc-content">
               <div className="calc-row">
                 <span className="calc-label">Base Utility:</span>
-                <span className="calc-value">{calc.baseUtility.toFixed(4)}</span>
+                <span className="calc-value">{calc.baseUtility.toFixed(6)}</span>
                 <div className="calc-bar" style={{ width: `${calc.baseUtility * 100}%` }}></div>
               </div>
 
               <div className="calc-row">
                 <span className="calc-label">Moral Weight:</span>
-                <span className="calc-value">{calc.moralWeight.toFixed(4)}</span>
+                <span className="calc-value">{calc.moralWeight.toFixed(6)}</span>
                 <div className="calc-bar" style={{ width: `${calc.moralWeight * 100}%` }}></div>
               </div>
 
               <div className="calc-row">
                 <span className="calc-label">Cascade Penalty:</span>
-                <span className="calc-value">{calc.cascadePenalty.toFixed(4)}</span>
+                <span className="calc-value">{calc.cascadePenalty.toFixed(6)}</span>
                 <div className="calc-bar" style={{ width: `${calc.cascadePenalty * 100}%` }}></div>
               </div>
 
               <div className="calc-row result">
                 <span className="calc-label">Expected Utility:</span>
-                <span className="calc-value">{calc.expectedUtility.toFixed(4)}</span>
+                <span className="calc-value">{calc.expectedUtility.toFixed(6)}</span>
                 <div className="calc-bar" style={{ width: `${calc.expectedUtility * 100}%` }}></div>
               </div>
 

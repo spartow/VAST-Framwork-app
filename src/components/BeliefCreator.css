@@ -7,10 +7,27 @@
   margin: 0 auto;
 }
 
+.belief-creator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .belief-creator h2 {
   color: #1e3a8a;
-  margin-bottom: 24px;
+  margin-bottom: 0;
   font-size: 1.8em;
+}
+
+.info-message {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border-left: 4px solid #10b981;
+  padding: 16px;
+  border-radius: 8px;
+  color: #065f46;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
 }
 
 .belief-creator h3 {

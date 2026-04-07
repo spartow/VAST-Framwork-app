@@ -8,6 +8,8 @@ const sections = [
   { id: 'beliefs', title: 'Beliefs', icon: '🧠' },
   { id: 'decision', title: 'Decision', icon: '⚡' },
   { id: 'gauges', title: 'Results', icon: '📊' },
+  { id: 'blockchain', title: 'Blockchain', icon: '🔗' },
+  { id: 'integrity', title: 'Integrity', icon: '🛡️' },
   { id: 'comparison', title: 'Comparison', icon: '📈' }
 ];
 
@@ -64,7 +66,6 @@ const PresentationMode = ({ vast, currentScenario, decisionResult, gauges, onExi
             <div className="title-slide">
               <h1 className="thesis-title">A Transparent Framework for</h1>
               <h1 className="thesis-title-main">AI Moral Alignment</h1>
-              <h1 className="thesis-title">Under Epistemic Uncertainty</h1>
               
               <div className="thesis-subtitle">
                 <strong>VAST:</strong> Values Alignment & Stability Tracker
@@ -80,7 +81,7 @@ const PresentationMode = ({ vast, currentScenario, decisionResult, gauges, onExi
                 <div className="advisor-name">Dr. Satyaki Nan</div>
               </div>
               
-              <div className="date-block">November 2025</div>
+              <div className="date-block">2026</div>
             </div>
           </div>
         );
@@ -102,6 +103,16 @@ const PresentationMode = ({ vast, currentScenario, decisionResult, gauges, onExi
                   <li><strong>κ:</strong> Confidence (epistemic certainty)</li>
                   <li><strong>J:</strong> Justification (moral grounding)</li>
                 </ul>
+                {currentScenario && currentScenario.actions && (
+                  <div className="example-box">
+                    <strong>Example from {currentScenario.title}:</strong>
+                    <div className="belief-example">
+                      <div>π: {JSON.stringify(currentScenario.actions[0].credence)}</div>
+                      <div>κ: {currentScenario.actions[0].confidence}</div>
+                      <div>J: {currentScenario.actions[0].justification.moral_principles.slice(0, 2).join(', ')}</div>
+                    </div>
+                  </div>
+                )}
               </div>
               
               <div className="arrow-down">↓</div>
@@ -115,6 +126,14 @@ const PresentationMode = ({ vast, currentScenario, decisionResult, gauges, onExi
                   <li>Weights updates by moral coherence</li>
                   <li>Resists value drift</li>
                 </ul>
+                <div className="example-box">
+                  <strong>Parameters (Thesis Section 4.3):</strong>
+                  <div className="param-example">
+                    <div>λ (moral consistency weight): 0.7</div>
+                    <div>α (confidence learning rate): 0.3</div>
+                    <div>β (justification learning rate): 0.2</div>
+                  </div>
+                </div>
               </div>
               
               <div className="arrow-down">↓</div>
@@ -128,6 +147,16 @@ const PresentationMode = ({ vast, currentScenario, decisionResult, gauges, onExi
                   <li>Priority-based penalties</li>
                   <li>Flexible moral reasoning</li>
                 </ul>
+                {currentScenario && currentScenario.constraints && (
+                  <div className="example-box">
+                    <strong>Cascading Constraints:</strong>
+                    <div className="constraint-example">
+                      {currentScenario.constraints.slice(0, 3).map((c, i) => (
+                        <div key={i}>Priority {c.priority}: {c.constraint}</div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               
               <div className="arrow-down">↓</div>
@@ -141,6 +170,15 @@ const PresentationMode = ({ vast, currentScenario, decisionResult, gauges, onExi
                   <li>Detect specific failure modes</li>
                   <li>Continuous auditing</li>
                 </ul>
+                {gauges && (
+                  <div className="example-box">
+                    <strong>Current Scores:</strong>
+                    <div className="gauge-preview">
+                      <div>Overall VAST: {(gauges.overall_vast_score * 100).toFixed(0)}%</div>
+                      <div>Calibration: {(gauges.calibration * 100).toFixed(0)}%</div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -373,12 +411,205 @@ const PresentationMode = ({ vast, currentScenario, decisionResult, gauges, onExi
           </div>
         );
 
+      case 'blockchain':
+        return (
+          <div className="section-content">
+            <h2 className="section-title">VAST-Blockchain Architecture</h2>
+            <p className="section-description">
+              Hybrid ledger anchoring for verifiable governance and auditability
+            </p>
+
+            <div className="blockchain-architecture">
+              <div className="arch-layer">
+                <div className="arch-layer-label">Application Layer (Off-Chain)</div>
+                <div className="arch-layer-content">
+                  <div className="arch-box arch-vast">
+                    <h4>VAST Engine</h4>
+                    <p>Perceive &rarr; JWMC &rarr; EEUCC &rarr; Gauges</p>
+                  </div>
+                  <div className="arch-arrow">&darr;</div>
+                  <div className="arch-box arch-record">
+                    <h4>Decision Record (d<sub>t</sub>)</h4>
+                    <div className="record-fields">
+                      <span>id</span><span>timestamp</span><span>rid</span>
+                      <span>h(Model)</span><span>com(input)</span><span>com(J)</span>
+                      <span>action</span><span>constraints</span><span>sig<sub>A</sub></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="arch-connector">&darr; ECDSA P-256 Signed</div>
+
+              <div className="arch-layer">
+                <div className="arch-layer-label">Anchoring Layer</div>
+                <div className="arch-layer-content">
+                  <div className="arch-box arch-hub">
+                    <h4>Anchoring Hub</h4>
+                    <div className="hub-details">
+                      <div className="hub-param">
+                        <strong>Batch interval:</strong> T = 10s or N = 25 decisions
+                      </div>
+                      <div className="hub-param">
+                        <strong>Merkle tree:</strong> Binary SHA-256, O(log n) proofs
+                      </div>
+                      <div className="hub-param">
+                        <strong>Output:</strong> Signed Tree Head (STH)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="arch-connector">&darr; STH Anchored</div>
+
+              <div className="arch-layer">
+                <div className="arch-layer-label">Smart Contract Layer (On-Chain)</div>
+                <div className="arch-layer-content arch-onchain">
+                  <div className="arch-box arch-contract">
+                    <h4>RuleRegistry.sol</h4>
+                    <p>Governed rule versions with quorum + timelock</p>
+                  </div>
+                  <div className="arch-box arch-contract">
+                    <h4>AnchorRegistry.sol</h4>
+                    <p>STH storage + fraud proof adjudication</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {vast && vast.logManager && (
+              <div className="blockchain-live-stats">
+                <h3>Live Session Stats</h3>
+                <div className="live-stats-grid">
+                  <div className="live-stat">
+                    <div className="live-stat-value">{vast.decisionLog?.length || 0}</div>
+                    <div className="live-stat-label">Decisions Signed</div>
+                  </div>
+                  <div className="live-stat">
+                    <div className="live-stat-value">ECDSA P-256</div>
+                    <div className="live-stat-label">Signature Algorithm</div>
+                  </div>
+                  <div className="live-stat">
+                    <div className="live-stat-value">SHA-256</div>
+                    <div className="live-stat-label">Hash Function</div>
+                  </div>
+                  <div className="live-stat">
+                    <div className="live-stat-value">Mock</div>
+                    <div className="live-stat-label">Ledger Mode</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+
+      case 'integrity':
+        return (
+          <div className="section-content">
+            <h2 className="section-title">Verification &amp; Integrity</h2>
+            <p className="section-description">
+              Threat model, security guarantees, and audit workflow
+            </p>
+
+            <div className="integrity-grid">
+              <div className="integrity-card">
+                <div className="integrity-icon">🔒</div>
+                <h3>Rule Immutability</h3>
+                <p>Locked ethical constraints cannot be altered once deployed. All 200 tampering attempts detected (150 blocked, 50 governed).</p>
+                <div className="integrity-result">100% detection rate</div>
+              </div>
+
+              <div className="integrity-card">
+                <div className="integrity-icon">🌳</div>
+                <h3>Merkle Inclusion Proofs</h3>
+                <p>Every decision can be verified as part of the anchored batch via O(log n) inclusion proof against the STH root.</p>
+                <div className="integrity-result">Logarithmic verification</div>
+              </div>
+
+              <div className="integrity-card">
+                <div className="integrity-icon">🔍</div>
+                <h3>External Detectability</h3>
+                <p>Independent auditors can detect tampering without trusting system operators. Rollback and history rewrites are cryptographically detectable.</p>
+                <div className="integrity-result">100% vs 0% centralized</div>
+              </div>
+
+              <div className="integrity-card">
+                <div className="integrity-icon">⚖️</div>
+                <h3>Governance Model</h3>
+                <p>Multi-stakeholder ethics board with BFT-style quorum (&gt;2/3), timelock delays, and on-chain rule versioning.</p>
+                <div className="integrity-result">Byzantine fault tolerant</div>
+              </div>
+            </div>
+
+            <div className="threat-model">
+              <h3>Threat Model Coverage</h3>
+              <div className="threats-list">
+                <div className="threat-item">
+                  <span className="threat-name">Insider rule tampering</span>
+                  <span className="threat-defense">Governed smart contracts + locked rules</span>
+                  <span className="threat-status">Mitigated</span>
+                </div>
+                <div className="threat-item">
+                  <span className="threat-name">Hub rollback / equivocation</span>
+                  <span className="threat-defense">STH consistency proofs + slashable fraud proofs</span>
+                  <span className="threat-status">Mitigated</span>
+                </div>
+                <div className="threat-item">
+                  <span className="threat-name">Log deletion / editing</span>
+                  <span className="threat-defense">Merkle inclusion proof failure detection</span>
+                  <span className="threat-status">Mitigated</span>
+                </div>
+                <div className="threat-item">
+                  <span className="threat-name">Byzantine governance</span>
+                  <span className="threat-defense">BFT quorum + timelock review</span>
+                  <span className="threat-status">Mitigated</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="latency-summary">
+              <h3>Performance Overhead</h3>
+              <div className="latency-bars">
+                <div className="latency-item">
+                  <span className="latency-label">VAST decision logic</span>
+                  <div className="latency-bar-bg">
+                    <div className="latency-bar-fill" style={{width: '23%'}}></div>
+                  </div>
+                  <span className="latency-value">0.68s</span>
+                </div>
+                <div className="latency-item">
+                  <span className="latency-label">Smart contract execution</span>
+                  <div className="latency-bar-bg">
+                    <div className="latency-bar-fill" style={{width: '15%'}}></div>
+                  </div>
+                  <span className="latency-value">0.45s</span>
+                </div>
+                <div className="latency-item">
+                  <span className="latency-label">Blockchain anchor finality</span>
+                  <div className="latency-bar-bg">
+                    <div className="latency-bar-fill" style={{width: '61%'}}></div>
+                  </div>
+                  <span className="latency-value">1.2-1.8s</span>
+                </div>
+                <div className="latency-item latency-total">
+                  <span className="latency-label">Total per decision</span>
+                  <div className="latency-bar-bg">
+                    <div className="latency-bar-fill latency-bar-total" style={{width: '100%'}}></div>
+                  </div>
+                  <span className="latency-value">2.3-2.95s</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       case 'comparison':
         return (
           <div className="section-content">
             <h2 className="section-title">Framework Comparison</h2>
             <p className="section-description">
-              VAST vs. State-of-the-Art Alignment Methods (Thesis Chapter 7)
+              VAST vs. State-of-the-Art Alignment Methods
             </p>
             
             <div className="comparison-grid">
@@ -465,7 +696,7 @@ const PresentationMode = ({ vast, currentScenario, decisionResult, gauges, onExi
                 <li><strong>+29% improvement</strong> over RLHF in overall alignment</li>
                 <li><strong>+23% improvement</strong> over Constitutional AI</li>
                 <li><strong>+28% improvement</strong> over Value Learning</li>
-                <li><strong>Highest human rating:</strong> 4.2/5.0 for ethical acceptability</li>
+                <li><strong>Human ethical acceptability:</strong> 84%</li>
               </ul>
             </div>
           </div>

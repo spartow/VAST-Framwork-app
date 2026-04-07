@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(npm list:*)",
+      "Bash(npm run:*)",
+      "Bash(wc -l \"C:\\\\Users\\\\Soraya\\\\Desktop\\\\Files\\\\Vast-framwork-app\\\\src\\\\core\\\\VASTFramework.js\" \"C:\\\\Users\\\\Soraya\\\\Desktop\\\\Files\\\\Vast-framwork-app\\\\src\\\\core\\\\blockchain\"/*.ts)",
+      "Bash(python -c \":*)",
+      "Bash(PYTHONIOENCODING=utf-8 python -c \":*)"
+    ]
+  }
+}

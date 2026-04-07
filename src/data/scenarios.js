@@ -391,7 +391,7 @@ export const scenarios = {
       {
         id: 'add_warning',
         label: 'Add Warning Label (Balanced Approach)',
-        credence: { mitigates_harm: 0.55, maintains_access: 0.85 },
+        credence: { effective: 0.55, ineffective: 0.45 },
         confidence: 0.75,
         justification: {
           facts: ['warning_label_visible', 'content_remains_accessible', 'user_informed'],

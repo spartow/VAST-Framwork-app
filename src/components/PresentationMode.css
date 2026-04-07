@@ -736,6 +736,38 @@
   font-size: 0.9rem;
 }
 
+.example-box {
+  margin-top: 16px;
+  padding: 12px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 8px;
+}
+
+.example-box strong {
+  display: block;
+  color: #0c4a6e;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.belief-example,
+.param-example,
+.constraint-example,
+.gauge-preview {
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.belief-example div,
+.param-example div,
+.constraint-example div,
+.gauge-preview div {
+  padding: 4px 0;
+  font-family: 'Courier New', monospace;
+}
+
 .arrow-down {
   text-align: center;
   font-size: 2rem;
@@ -1129,6 +1161,366 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Blockchain Architecture Slide */
+.blockchain-architecture {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 900px;
+  margin: 0 auto 32px;
+}
+
+.arch-layer {
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.arch-layer-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+}
+
+.arch-layer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.arch-layer-content.arch-onchain {
+  flex-direction: row;
+  justify-content: center;
+  gap: 24px;
+}
+
+.arch-box {
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.arch-box h4 {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.arch-box p {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.arch-vast {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 2px solid #3b82f6;
+}
+
+.arch-vast h4 { color: #1d4ed8; }
+
+.arch-record {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 2px solid #22c55e;
+}
+
+.arch-record h4 { color: #15803d; }
+
+.record-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.record-fields span {
+  background: rgba(255,255,255,0.7);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-family: var(--font-family-mono);
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.arch-hub {
+  background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+  border: 2px solid #eab308;
+}
+
+.arch-hub h4 { color: #a16207; }
+
+.hub-details {
+  text-align: left;
+  margin-top: 8px;
+}
+
+.hub-param {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  padding: 3px 0;
+}
+
+.arch-contract {
+  background: linear-gradient(135deg, #fdf4ff 0%, #f5d0fe 100%);
+  border: 2px solid #a855f7;
+  flex: 1;
+  max-width: 350px;
+}
+
+.arch-contract h4 { color: #7e22ce; }
+
+.arch-arrow {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.arch-connector {
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  padding: 4px 0;
+}
+
+.blockchain-live-stats {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.blockchain-live-stats h3 {
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+
+.live-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.live-stat {
+  text-align: center;
+}
+
+.live-stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-family: var(--font-family-mono);
+}
+
+.live-stat-label {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+
+/* Integrity Slide */
+.integrity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto 28px;
+}
+
+.integrity-card {
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: all 0.3s;
+}
+
+.integrity-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+
+.integrity-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.integrity-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: var(--color-text-primary);
+}
+
+.integrity-card p {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.integrity-result {
+  font-weight: 700;
+  color: #059669;
+  font-size: 0.95rem;
+}
+
+.threat-model {
+  max-width: 900px;
+  margin: 0 auto 28px;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  border-left: 4px solid #dc2626;
+}
+
+.threat-model h3 {
+  margin-bottom: 12px;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+
+.threats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.threat-item {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+}
+
+.threat-name {
+  font-weight: 600;
+  color: #dc2626;
+}
+
+.threat-defense {
+  color: var(--color-text-secondary);
+}
+
+.threat-status {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.latency-summary {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.latency-summary h3 {
+  margin-bottom: 16px;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+
+.latency-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.latency-item {
+  display: grid;
+  grid-template-columns: 200px 1fr 80px;
+  align-items: center;
+  gap: 12px;
+}
+
+.latency-label {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.latency-bar-bg {
+  height: 16px;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.latency-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  border-radius: var(--radius-full);
+  transition: width 0.8s ease;
+}
+
+.latency-bar-total {
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+}
+
+.latency-value {
+  font-family: var(--font-family-mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+  text-align: right;
+}
+
+.latency-total {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 2px solid var(--color-border);
+}
+
+.latency-total .latency-label {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 1024px) {
+  .integrity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-layer-content.arch-onchain {
+    flex-direction: column;
+  }
+
+  .live-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .threat-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .latency-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
 }
 
 @media print {
