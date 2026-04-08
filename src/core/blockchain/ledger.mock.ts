@@ -439,6 +439,7 @@ export async function initializeMockLedger(): Promise<void> {
 export function resetMockLedger(): void {
   mockLedger.rules.getAllRules().forEach(r => {
     // Note: This is a hack for testing - in production, rules are immutable
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (mockLedger.rules as any).rules.delete(r.rid);
   });
   mockLedger.anchors.clear();

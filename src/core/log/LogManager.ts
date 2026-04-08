@@ -13,7 +13,7 @@ import { anchoringHub } from '../blockchain/anchoringHub';
 import { toDecisionRecord, signDecisionRecord } from '../blockchain/decisionRecord';
 import { getOrCreateAgentKeypair } from '../blockchain/crypto';
 import { getBlockchainConfig } from '../blockchain/config';
-import { mockLedger, initializeMockLedger } from '../blockchain/ledger.mock';
+import { initializeMockLedger } from '../blockchain/ledger.mock';
 
 export class LogManager {
   private logs: LogEntry[];

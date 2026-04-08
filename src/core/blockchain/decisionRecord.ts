@@ -5,7 +5,7 @@
  * Captures all relevant metadata for later verification and auditing.
  */
 
-import { LogEntry, Belief, EUBreakdown, GaugeScores } from '../types';
+import { LogEntry, Belief, GaugeScores } from '../types';
 import { canonicalJson, sha256, sign, generateUUID } from './crypto';
 import { getBlockchainConfig } from './config';
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Rules.css';
 import { mockLedger } from '../core/blockchain/ledger.mock';
-import { RuleEntry, GovernanceRecord, canFinalize, formatTimelock } from '../core/blockchain/rules';
+import { canFinalize, formatTimelock } from '../core/blockchain/rules';
 import { canonicalJson, sha256 } from '../core/blockchain/crypto';
 
 const Rules = () => {
@@ -25,6 +25,7 @@ const Rules = () => {
 
   useEffect(() => {
     loadRules();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadRules = () => {
